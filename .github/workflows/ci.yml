@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: swift-format lint
-        run: xcrun swift-format lint --strict --recursive Sources Tests Plugins
+        run: xcrun swift-format lint --strict --recursive Sources Tests
 
   # macOS 全量测试(工具为宿主构件,无 iOS 目的地)
   macos-test:

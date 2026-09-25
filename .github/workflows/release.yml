@@ -32,7 +32,7 @@ jobs:
           {
             "schemaVersion": "1.0",
             "artifacts": {
-              "rime-deploy": {
+              "RimeDeploy": {
                 "version": "$VERSION",
                 "type": "executable",
                 "variants": [
