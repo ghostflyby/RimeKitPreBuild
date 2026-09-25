@@ -1,5 +1,5 @@
 {
-  "originHash" : "ef7082037ef2ed97de581a46043759b5345560a6d45bedbd8fda6ff18529c27c",
+  "originHash" : "58ccba1be148e313116ad6a23c9a32f7140b5ca5969a7123f1894bb81d15a38c",
   "pins" : [
     {
       "identity" : "librime-xcframework",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ghostflyby/RimeKit.git",
       "state" : {
-        "branch" : "feat/rime-deploy",
-        "revision" : "fe3e1464edd3b78d1d458eb20fd7a1e5dfff9094"
+        "revision" : "c4d565d6782bd1ef6ecc254d5c5ea9731d076309",
+        "version" : "0.0.17"
       }
     },
     {

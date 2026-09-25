@@ -19,7 +19,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/ghostflyby/RimeKit.git",
-      branch: "feat/rime-deploy",
+      from: "0.0.17",
       traits: ["librimeStatic"]
     ),
   ],
