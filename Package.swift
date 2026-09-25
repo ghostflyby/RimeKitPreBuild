@@ -12,9 +12,6 @@ let package = Package(
   ],
   products: [
     .executable(name: "RimeDeploy", targets: ["RimeDeploy"]),
-    .plugin(
-      name: "RimeDeployPlugin",
-      targets: ["RimeDeployPlugin"]),
   ],
   dependencies: [
     .package(
@@ -39,26 +36,11 @@ let package = Package(
         .linkedLibrary("c++")
       ]
     ),
-    .plugin(
-      name: "RimeDeployPlugin",
-      capability: .buildTool(),
-      dependencies: ["RimeDeploy"],
-      path: "Plugins/RimeDeployPlugin"
-    ),
     // 每个用例一个进程:退出测试矩阵 + spawn 真实二进制的冒烟用例。
     .testTarget(
       name: "RimeDeployToolTests",
       dependencies: ["RimeDeployCore"],
       path: "Tests/RimeDeployToolTests"
-    ),
-    // 插件附着到本包自己的数据目录(惯例名 + 非常规名并存),断言编译数据
-    // 进 bundle、布局保留,并经 RimeKit(静态)进程内加载验证。
-    .testTarget(
-      name: "RimeDeployPluginTests",
-      dependencies: [.product(name: "RimeKit", package: "RimeKit")],
-      path: "Tests/RimeDeployPluginTests",
-      exclude: ["RimeData", "MyRimeData"],
-      plugins: [.plugin(name: "RimeDeployPlugin")]
     ),
   ]
 )
