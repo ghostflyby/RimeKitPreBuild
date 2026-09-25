@@ -51,9 +51,12 @@ jobs:
       - name: Checksum
         run: shasum -a 256 "${{ env.BUNDLE_ZIP }}" > "${{ env.BUNDLE_ZIP }}.sha256"
 
-      - name: Create release
+      - name: Create release with assets
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ github.ref_name }}" --verify-tag --generate-notes --title "${{ github.ref_name }}"
-          gh release upload "${{ github.ref_name }}" "${{ env.BUNDLE_ZIP }}" "${{ env.BUNDLE_ZIP }}.sha256"
+          gh release create "${{ github.ref_name }}" \
+            "$BUNDLE_ZIP" "$BUNDLE_ZIP.sha256" \
+            --verify-tag --generate-notes --title "${{ github.ref_name }}"
+        # 一次性 create+upload:仓库规则集将 release 设为不可变,创建后无法
+        # 再单独上传资产(上一版工作流在此处 422 失败的根因)。
