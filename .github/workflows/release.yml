@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify tag is on main
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor "${GITHUB_SHA}" origin/main
+
+      - name: Build (release)
+        run: swift build -c release --product RimeDeploy
+
+      - name: Package artifact bundle
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          BUNDLE="RimeDeploy-${GITHUB_REF_NAME}.artifactbundle"
+          BIN_DIR=$(swift build -c release --product RimeDeploy --show-bin-path)
+          mkdir -p "$BUNDLE/rime-deploy-macos-arm64/bin"
+          cp "$BIN_DIR/RimeDeploy" "$BUNDLE/rime-deploy-macos-arm64/bin/RimeDeploy"
+          cat > "$BUNDLE/info.json" <<EOF
+          {
+            "schemaVersion": "1.0",
+            "artifacts": {
+              "rime-deploy": {
+                "version": "$VERSION",
+                "type": "executable",
+                "variants": [
+                  {
+                    "path": "rime-deploy-macos-arm64/bin/RimeDeploy",
+                    "supportedTriples": ["arm64-apple-macosx"]
+                  }
+                ]
+              }
+            }
+          }
+          EOF
+          zip -qr "$BUNDLE.zip" "$BUNDLE"
+          echo "BUNDLE_ZIP=$BUNDLE.zip" >> "$GITHUB_ENV"
+
+      - name: Checksum
+        run: shasum -a 256 "${{ env.BUNDLE_ZIP }}" > "${{ env.BUNDLE_ZIP }}.sha256"
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" --verify-tag --generate-notes --title "${{ github.ref_name }}"
+          gh release upload "${{ github.ref_name }}" "${{ env.BUNDLE_ZIP }}" "${{ env.BUNDLE_ZIP }}.sha256"

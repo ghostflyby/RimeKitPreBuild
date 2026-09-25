@@ -1,0 +1,6 @@
+schema:
+  schema_id: probe
+  name: Probe
+  version: "1"
+translator:
+  dictionary: probe
