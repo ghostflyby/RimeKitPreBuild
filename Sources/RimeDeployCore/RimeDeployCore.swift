@@ -356,14 +356,15 @@ private func describeMissing(_ missing: [String], in outDir: String) -> String {
     data has to match the file it lives in:
 
       * a schema's schema_id must equal its file name
-        (<id>.schema.yaml holds "schema_id: <id>")
-      * a schema's translator/dictionary must equal the dictionary's file
-        name (<id>.dict.yaml holds "name: <id>"), and a defaulted prism
-        follows the same name
-      * every *.dict.yaml must be the primary dictionary of some schema. One
-        reached only through another dictionary's import_tables, or used only
-        as an entry in a schema's translator/packs list, compiles to a table
-        alone (or to nothing), with no prism and no reverse database, so the
-        names this build declared for it cannot all exist
+        (<id>.schema.yaml holds "schema_id: <id>"); it deploys to the
+        same-named compiled configuration
+      * the dictionary a schema names in translator/dictionary must equal
+        that dictionary's file name (<id>.dict.yaml holds "name: <id>"); it
+        compiles to <name>.table.bin and <name>.reverse.bin, plus a prism
+        named after translator/prism, defaulting to the dictionary's name
+      * a *.dict.yaml that no schema names in translator/dictionary produces
+        nothing: one merged into another dictionary via import_tables lives
+        on only inside that dictionary's table, and one nothing references
+        stays a source file, so names declared for them cannot all exist
     """
 }
