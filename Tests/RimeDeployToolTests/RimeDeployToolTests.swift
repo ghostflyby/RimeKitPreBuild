@@ -237,6 +237,23 @@
       }
     }
 
+    @Test("also-copy 重跑:同一输出目录二轮部署幂等成功(先删后拷)")
+    func copiedDataSurvivesRerun() async {
+      await #expect(processExitsWith: .success) {
+        let fixture = try makeHealthyFixture()
+        defer { fixture.remove() }
+        try fixture.write("t2s", to: fixture.data.appendingPathComponent("opencc/t2s.json"))
+        let request = fixture.request(expected: ["probe.table.bin"], alsoCopy: ["opencc/t2s.json"])
+
+        _ = try await runRimeDeploy(request)
+        let outcome = try await runRimeDeploy(request)
+
+        #expect(outcome.verifiedArtifacts == 1)
+        let copied = fixture.out.appendingPathComponent("opencc/t2s.json")
+        #expect(try String(contentsOf: copied, encoding: .utf8) == "t2s")
+      }
+    }
+
     @Test func missingCopySourceFails() async {
       await #expect(processExitsWith: .success) {
         let fixture = try makeHealthyFixture()
