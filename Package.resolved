@@ -1,13 +1,13 @@
 {
-  "originHash" : "58ccba1be148e313116ad6a23c9a32f7140b5ca5969a7123f1894bb81d15a38c",
+  "originHash" : "51699f99cc256da9083acc27b47791a98033b353ddcf56d2a85376e30fd8cea7",
   "pins" : [
     {
       "identity" : "librime-xcframework",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ghostflyby/librime-xcframework",
       "state" : {
-        "revision" : "8ab6bc8f6761c976f539bf7d006f9e71657ed242",
-        "version" : "1.17.0-pack.9.0.3"
+        "revision" : "17539eb41629a669610add67cfe6a802bf577506",
+        "version" : "1.17.0-pack.9.1.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ghostflyby/RimeKit.git",
       "state" : {
-        "revision" : "c4d565d6782bd1ef6ecc254d5c5ea9731d076309",
-        "version" : "0.0.17"
+        "revision" : "605a99899ac1a12ef8ae111cbfb067a200bc4385",
+        "version" : "0.0.31"
       }
     },
     {
